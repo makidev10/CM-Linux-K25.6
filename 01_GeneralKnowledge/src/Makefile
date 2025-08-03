@@ -2,14 +2,17 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 LIB_PATH = ../lib/strutils
 LIB_NAME = strutils
+INCLUDES = -I$(LIB_PATH)
 
-all: main
+all: main_static main_shared
 
-main: main.o
-	$(CC) $(CFLAGS) -o main main.o -L$(LIB_PATH) -l$(LIB_NAME) -Wl,-rpath=$(LIB_PATH)
+main_static: main.c
+	$(CC) $(CFLAGS) $(INCLUDES) -o main_static main.c $(LIB_PATH)/lib$(LIB_NAME).a
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+# -Wl,-rpath: Automatically search for linking file
+# We can use export LD_LIBRARY_PATH=../lib/strutils as an alternative way
+main_shared: main.c
+	$(CC) $(CFLAGS) $(INCLUDES) -o main_shared main.c -L$(LIB_PATH) -l$(LIB_NAME) -Wl,-rpath=$(LIB_PATH)
 
 clean:
-	rm -f main.o main
+	rm -f main_static main_shared
