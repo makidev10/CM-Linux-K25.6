@@ -6,7 +6,7 @@ char *str_reverse(char *str, size_t length) {
   if (str == NULL)
     return NULL;
 
-  for (int i = 0; i < length / 2; i++) {
+  for (size_t i = 0; i < length / 2; i++) {
     char temp = str[i];
     str[i] = str[length - i - 1];
     str[length - i - 1] = temp;
@@ -15,7 +15,7 @@ char *str_reverse(char *str, size_t length) {
   return str;
 }
 
-char *str_trim(char *str, size_t length) {
+char *str_trim(char *str) {
   if (str == NULL)
     return NULL;
 
@@ -38,9 +38,9 @@ int str_to_int(char *str, size_t length) {
 
   int result = 0;
   int sign = 1;
-  int index = 0;
+  size_t index = 0;
   int temp = 0;
-  (void)str_trim(str, length);
+  (void)str_trim(str);
 
   if (str[0] == '-') {
     sign = -1;
