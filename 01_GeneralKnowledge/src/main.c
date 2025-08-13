@@ -1,3 +1,5 @@
+//LESSON 1
+
 #include "../lib/strutils/strutils.h"
 #include <stdio.h>
 #include <string.h>
