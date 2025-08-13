@@ -29,22 +29,25 @@ void* child_function(void *arg) {
     }
  
     switch(*id) {
-        case 1: threads_label = CHILD_THREAD_1; break;
-        case 2: threads_label = CHILD_THREAD_2; break;
-        case 3: threads_label = CHILD_THREAD_3; break;
+        case THREAD1_ID: threads_label = CHILD_THREAD_1; break;
+        case THREAD2_ID: threads_label = CHILD_THREAD_2; break;
+        case THREAD3_ID: threads_label = CHILD_THREAD_3; break;
         default: threads_label = "[CHILD]"; break;
     }
  
     printf("%s Start thread... TID: %ld\n", threads_label, (unsigned long)pthread_self());
-   
-    while (counter < LOOP_TIMES) {
+    
+    while (1) {
         pthread_mutex_lock(&mx);
+        if (counter >= LOOP_TIMES) {
+            pthread_mutex_unlock(&mx);
+            break;
+        }
         counter++;
         printf("%s Processing thread: Increase counter to %lld\n", threads_label, counter);
         pthread_mutex_unlock(&mx);
     }
- 
-    printf("%s End thread... TID: %ld\n", threads_label, (unsigned long)pthread_self());
+    printf("%s End thread %d. TID: %ld\n", threads_label, *id, (unsigned long)pthread_self());
 }
  
 int main() {
